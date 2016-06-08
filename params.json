@@ -1,0 +1,6 @@
+{
+  "name": "Aerial Maneuvers",
+  "tagline": "Concourse CI Cookbook",
+  "body": "# Aerial Maneuvers\r\n***The [Concourse CI](http://concourse.ci) Cookbook***\r\n\r\n![Doing a barrel roll is an example of an aerial manouver; currently Concourse doesn't support barrel rolls but it should.](https://media.giphy.com/media/ZQMVKzoTLdNBu/giphy.gif)\r\n\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
