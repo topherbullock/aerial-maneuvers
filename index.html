@@ -1,76 +1,45 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Aerial Maneuvers by pivotal-topher-bullock</title>
+---
+layout: default
+---
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-light.css">
-    <meta name="viewport" content="width=device-width">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <h1>Aerial Maneuvers</h1>
-        <p>Concourse CI Cookbook</p>
+<div class="home">
 
-        <p class="view"><a href="https://github.com/pivotal-topher-bullock/aerial-maneuvers">View the Project on GitHub <small>pivotal-topher-bullock/aerial-maneuvers</small></a></p>
+  <h2>The <a href="http://concourse.ci">Concourse CI</a> Cookbook</h2>
 
+  <p>
+    <img src="https://media.giphy.com/media/ZQMVKzoTLdNBu/giphy.gif" alt="Doing a barrel roll is an example of an aerial maneuver; currently Concourse doesn't support barrel rolls but it should.">
+  </p>
 
-        <ul>
-          <li><a href="https://github.com/pivotal-topher-bullock/aerial-maneuvers/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/pivotal-topher-bullock/aerial-maneuvers/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/pivotal-topher-bullock/aerial-maneuvers">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h1>
-<a id="aerial-maneuvers" class="anchor" href="#aerial-maneuvers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Aerial Maneuvers</h1>
+  <h2>About</h2>
 
-<p><strong><em>The <a href="http://concourse.ci">Concourse CI</a> Cookbook</em></strong></p>
+  <blockquote>
+  <p>Concourse is built on a few components, all written in Go with cutesy aerospace-themed names.</p>
+  </blockquote>
 
-<p><img src="https://media.giphy.com/media/ZQMVKzoTLdNBu/giphy.gif" alt="Doing a barrel roll is an example of an aerial manouver; currently Concourse doesn't support barrel rolls but it should."></p>
+  <p>Using <a href="http://concourse.ci/">Concourse</a> for your CI needs is overall a wonderful experience due to its <a href="http://concourse.ci/concepts.html">simplicity</a>, scalability, and <a href="http://concourse.ci/concepts.html#resources">integrations via resources</a> ( and the cutesy aerospace-themed names! ). However, it is often tough to go from vision to execution when first getting started with Concourse; the simplicity can feel like a pile of building blocks ready to be moulded into anything!</p>
 
-<h2>
-<a id="about" class="anchor" href="#about" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>About</h2>
+  <p>This repo hopes to collect some strategies, stories from the trenches, and helpful tips to assist new Concourse users on their flight to the perfect Concourse CI / CD strategy!</p>
 
-<blockquote>
-<p>Concourse is built on a few components, all written in Go with cutesy aerospace-themed names.</p>
-</blockquote>
+  <h2>
+  <a id="topics" class="anchor" href="#topics" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Topics</h2>
 
-<p>Using <a href="http://concourse.ci/">Concourse</a> for your CI needs is overall a wonderful experience due to its <a href="http://concourse.ci/concepts.html">simplicity</a>, scalability, and <a href="http://concourse.ci/concepts.html#resources">integrations via resources</a> ( and the cutesy aerospace-themed names! ). However, it is often tough to go from vision to execution when first getting started with Concourse; the simplicity can feel like a pile of building blocks ready to be moudled into anything!</p>
+  <p>There a several key topics which this documentation hopes to cover in-depth, and hopefully the list will grow as more users share their stories and strategies:</p>
+  <hr />
+  
+  <ul class="post-list">
+    {% for post in site.posts %}
+      <li>
+        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
 
-<p>This repo hopes to collect some strategies, stories from the trenches, and helpful tips to assist new Concourse users on their flight to the perfect Concourse CI / CD strategy!</p>
+        <h2>
+          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+        </h2>
+      </li>
+    {% endfor %}
+  </ul>
 
-<h2>
-<a id="topics" class="anchor" href="#topics" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Topics</h2>
+  <hr />
 
-<p>There a several key topics which this documentation hopes to cover in-depth, and hopefully the list will grow as more users share their stories and strategies:</p>
+  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
 
-<h3>
-<a id="pipeline-strategies" class="anchor" href="#pipeline-strategies" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Pipeline Strategies</h3>
-
-<ul>
-<li>Continuous Deployment to CF</li>
-</ul>
-
-<h3>
-<a id="deploying-concourse" class="anchor" href="#deploying-concourse" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deploying Concourse</h3>
-
-<ul>
-<li>Deploying Concourse in an air-gapped environment</li>
-</ul>
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/pivotal-topher-bullock">pivotal-topher-bullock</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
-    </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
-  </body>
-</html>
+</div>
