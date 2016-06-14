@@ -12,7 +12,7 @@ description: >
   Strategies, stories from the trenches, and helpful tips to assist
   Concourse users on their flight to the perfect Concourse CI / CD strategy!
 baseurl: "/aerial-maneuvers" # the subpath of your site, e.g. /blog
-url: "http://pivotal-topher-bullock.github.io/"
+url: "http://pivotal-topher-bullock.github.io"
 twitter_username: topherbullock
 github_username:  pivotal-topher-bullock
 
