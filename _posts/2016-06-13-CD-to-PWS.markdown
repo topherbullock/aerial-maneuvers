@@ -47,7 +47,7 @@ your PWS account if you just want to see the pipeline in action!
 ## Final Product
 By the end of this tutorial, you'll have a deployment pipeline in Concourse to
 push the latest commits to your repo to PWS:
-![Final Pipeline]({{ site.url }}/images/2016-06-15-final-product.jpg)
+![Final Pipeline]({{ site.url }}/{{ site.baseurl }}/images/2016-06-15-final-product.jpg)
 
 ## Ingredients
 
@@ -153,7 +153,7 @@ You'll notice the pipeline shows up in the UI as grey, or paused. You can
 un-pause the pipeline through the UI, or using the Fly CLI:
 `fly unpause-pipeline -p cd-pws`
 
-![Pipeline]({{ site.url }}/images/2016-06-15-pipeline.jpg)
+![Pipeline]({{ site.url }}/{{ site.baseurl }}/images/2016-06-15-pipeline.jpg)
 
 Now that the pipeline is un-paused, a new build will be triggered and your app
 will be pushed to PWS!!!
