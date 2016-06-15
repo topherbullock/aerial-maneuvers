@@ -1,0 +1,170 @@
+---
+layout: post
+title:  "Continuous Delivery to PWS"
+author: Topher Bullock
+date:   2016-06-13 09:15:40 -0400
+tags: [CD, beginner]
+
+---
+## Overview
+Continuous Delivery is a hot buzzword in the Testing & DevOps community;
+companies like Netflix, Facebook, and Google attribute much of their success to
+regularly deploying new code to a User Acceptance Testing environment or
+directly to users in production. Creating a pipeline for CD is a common use for
+Concourse, and the resources available out of the box make it continuously
+deliver your app to Pivotal Web Services.
+
+This Aerial Maneuver 'recipe' will show you how to deploy the latest commits
+on a GitHub repo to Pivotal Web Services.
+
+## Prep
+To prepare for this example pipeline you'll need to [sign up for a PWS account](http://run.pivotal.io/),
+and set up Concourse.
+
+The simplest way to get a Concourse instance up and
+running is to [run a local Vagrant VM with Concourse preconfigured](http://concourse.ci/vagrant.html):
+
+```bash
+vagrant init concourse/lite # creates ./Vagrantfile
+vagrant up  
+```
+
+You can then download Concourse's CLI `fly` from your local Concourse instance
+at (http://192.168.100.4:8080/)[http://192.168.100.4:8080/]
+
+> NOTE: be sure to make the `fly` binary executable!
+
+***Optional prep:***
+
+You can optionally prepare your own Git repo with [ application which can be
+deployed to Cloud Foundry](https://docs.cloudfoundry.org/devguide/deploy-apps/deploy-app.html);
+specifically you'll want to ensure you have an [Application Manifest](https://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html) in
+your Git repository ([example manifest.yml](https://github.com/pivotal-topher-bullock/cf-staticfile-app/blob/master/manifest.yml))
+
+Or you can deploy this [example static application](https://github.com/pivotal-topher-bullock/cf-staticfile-app) to
+your PWS account if you just want to see the pipeline in action!
+
+## Final Product
+By the end of this tutorial, you'll have a deployment pipeline in Concourse to
+push the latest commits to your repo to PWS:
+![Final Pipeline]({{ site.url }}/images/2016-06-15-final-product.jpg)
+
+## Ingredients
+
+#### pipeline.yml
+
+First off you'll need to create a [`pipeline.yml`](http://concourse.ci/pipelines.html)
+file with a few resources; resources are one of the simple building blocks of a
+[Concourse pipeline](http://concourse.ci/pipeline-mechanics.html), and can represent code
+repositories, environments, files in S3, and [much much more](http://concourse.ci/resource-types.html)
+
+To build the Continuous Delivery pipeline you'll need to set up a couple of
+resources in your pipeline YAML:
+
+```yaml
+{% raw %}
+# pipeline.yml
+
+# Resources
+resources:
+
+# Your application repository on GitHub
+- name: static-app-dev
+  type: git
+  source:
+    uri: git@github.com:pivotal-topher-bullock/cf-staticfile-app.git
+    branch: develop
+    private_key: {{ private_key }}
+
+# The details of the PWS account you wish to deploy to
+- name: pws
+  type: cf
+  source:
+    api: https://api.run.pivotal.io
+    username: {{ username }}
+    password: {{ password }}
+    organization: {{ org }}
+    space: {{ space }}
+{% endraw %}
+```
+
+Next we need to add a job which pulls down the latest commits to the GitHub
+repository and pushes them up to [PWS](http://run.pivotal.io/) using the
+[Application Manifest](https://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html).
+[Jobs](http://concourse.ci/configuring-jobs.html) define actions in a pipeline
+and represent gathering *resources* or running *tasks*. Our job will simply pull
+down the GitHub repository and push the code from the repository up to PWS.
+
+Add the following YAML snippet to your `pipeline.yml`:
+
+```yaml
+{% raw %}
+# pipeline.yml (continued)
+
+jobs:
+  # This job deploys the code from the GitHub repo to PWS
+  - name: deploy app
+    plan:
+        # 'get' the latest commit to GitHub
+      - get: static-app-dev
+        #Trigger the job on any new commit to the Git resource
+        trigger: true
+        # 'put' the application to CF
+      - put: pws
+        params:
+          path: static-app-dev
+          # provide an app manifest to use when pushing to CF.
+          manifest: static-app-dev/manifest.yml
+{% endraw %}
+```
+
+#### credentials.yml
+
+A common use case for [Concourse's pipeline template variables feature](http://concourse.ci/fly-set-pipeline.html#section_parameters) is
+ a separate `credentials.yml` file with variables to be used in your pipeline.
+ This lets you share your original `pipeline.yml` without exposing sensitive
+ data like passwords and private keys.
+
+```yaml
+username: #your PWS username
+password: #your PWS password
+org: #your PWS Org
+space: #your PWS Space
+private_key: #your GitHub private key
+```
+
+## Deploy the Pipeline
+
+Now that we have the two necessary files, we can "set" our pipeline on our
+local Concourse deployment. Run the following command in your terminal:
+
+ `fly set-pipeline -p cd-pws -c ./pipeline.yml -l ./credentials.yml`
+
+> NOTE: The `-p` flag can be used to change the display name of your pipeline
+
+This will show you the full templated Pipeline YAML with your credentials
+inserted where the curly brackets are, and allow you to confirm before pushing
+the pipeline to Concourse. Once the pipeline is set; go to your local Concourse
+instance's UI at [http://192.168.100.4:8080/](http://192.168.100.4:8080/)
+
+> NOTE: You can pause a pipeline at any time to stop it from being triggered
+
+You'll notice the pipeline shows up in the UI as grey, or paused. You can
+un-pause the pipeline through the UI, or using the Fly CLI:
+`fly unpause-pipeline -p cd-pws`
+
+![Pipeline]({{ site.url }}/images/2016-06-15-pipeline.jpg)
+
+Now that the pipeline is un-paused, a new build will be triggered and your app
+will be pushed to PWS!!!
+
+## Spice Things Up!
+
+Now that you have a basic pipeline set up, you can play around with different
+configuration of the jobs and resources! Here are some ideas for inspiration:
+
+- Try changing the GitHub branch your pipeline pushes
+- Try adding a [task](http://concourse.ci/running-tasks.html) to the `deploy app`
+job between the `get` and the `put`
+- Try switching from deploying to PWS to
+[PCF Dev](https://github.com/pivotal-cf/pcfdev)

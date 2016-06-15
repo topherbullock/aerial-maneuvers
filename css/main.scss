@@ -28,7 +28,13 @@ $content-width:    800px;
 $on-palm:          600px;
 $on-laptop:        800px;
 
-
+small.category {
+  color:$grey-color;
+  font-size: small;
+  display: inline-block;
+  position: relative;
+  top: -4px;
+}
 
 // Use media queries like this:
 // @include media-query($on-palm) {

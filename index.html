@@ -20,19 +20,21 @@ layout: default
 
   <p>This repo hopes to collect some strategies, stories from the trenches, and helpful tips to assist new Concourse users on their flight to the perfect Concourse CI / CD strategy!</p>
 
-  <h2>
-  <a id="topics" class="anchor" href="#topics" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Topics</h2>
+  <h2>Recipes</h2>
 
   <p>There a several key topics which this documentation hopes to cover in-depth, and hopefully the list will grow as more users share their stories and strategies:</p>
   <hr />
-  
+
   <ul class="post-list">
     {% for post in site.posts %}
       <li>
         <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
 
         <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">
+            {%if post.category%}<small class="category"> {{post.category}} </small>{% endif %}
+            {{ post.title }}
+          </a>
         </h2>
       </li>
     {% endfor %}
