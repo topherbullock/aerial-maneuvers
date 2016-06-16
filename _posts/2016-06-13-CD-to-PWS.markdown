@@ -74,17 +74,17 @@ resources:
   source:
     uri: git@github.com:pivotal-topher-bullock/cf-staticfile-app.git
     branch: develop
-    private_key: {{ private_key }}
+    private_key: (( private_key ))
 
 # The details of the PWS account you wish to deploy to
 - name: pws
   type: cf
   source:
     api: https://api.run.pivotal.io
-    username: {{ username }}
-    password: {{ password }}
-    organization: {{ org }}
-    space: {{ space }}
+    username: {{username}}
+    password: {{password}}
+    organization: {{org}}
+    space: {{space}}
 {% endraw %}
 ```
 
